@@ -17,9 +17,9 @@
 			<key>metadata</key>
 			<dict>
 				<key>bundle-identifier</key>
-				<string>org.ppsspp.ppsspp</string>
+				<string>com.34306.trollforce</string>
 				<key>bundle-version</key>
-				<string>1.16.6-964-g17ff605af</string>
+				<string>1.2</string>
 				<key>kind</key>
 				<string>software</string>
 				<key>title</key>
