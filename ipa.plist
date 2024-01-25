@@ -10,7 +10,7 @@
                         <key>kind</key>
                         <string>software-package</string>
                         <key>url</key>
-                        <string>http://bimoe.oss-cn-shenzhen.aliyuncs.com/Shadowrocket_2.1.23.ipa?Expires=1545459477&OSSAccessKeyId=TMP.AQH6Lux99wEJkjPepti0u8JrrwVogTB7CKHTmEWAvfPvNQrSxYpPHTuVcVfeADAtAhUApJgF35zRrSc8MLBj2J48Ql4k9gcCFCCe1SPy6G8q-YmfieK_PasrKQx0&Signature=GSuCnYj5uxdqwCkoFGfRdCyAQ%2BI%3D</string>
+                        <string>https://github.com/anyi11/anyi11/raw/master/Shadowrocket_2.1.23.ipa</string>
                     </dict>
                 </array>
                 <key>metadata</key>
