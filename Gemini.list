@@ -1,7 +1,13 @@
+# ===== Gemini Core =====
 DOMAIN-SUFFIX,gemini.google.com
 DOMAIN-SUFFIX,generativeai.google
 DOMAIN-SUFFIX,ai.google.dev
 DOMAIN-SUFFIX,makersuite.google.com
 DOMAIN-SUFFIX,notebooklm.google.com
-DOMAIN-SUFFIX,googleapis.com
-DOMAIN-SUFFIX,gstatic.com
+
+# ===== Gemini API ONLY =====
+DOMAIN,aiplatform.googleapis.com
+
+# ===== Auth =====
+DOMAIN-SUFFIX,accounts.google.com
+DOMAIN,oauth2.googleapis.com
