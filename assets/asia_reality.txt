@@ -1,0 +1,6 @@
+[Proxy]
+JP-Reality-01 = vless, c8217-b2a.h2.49d2.jse11.1.b297.djjsvip.cfd, 8443, username=56c8ad57-ddfc-423f-a452-aa16e97e3346, tls=true, reality=true, servername=www.delamer.co.jp, reality-public-key=tpxyz9wkFuetOl4-nf_fx4l3DaJwEk9Qnglpuo9B2n4, reality-short-id=8743f0c33aaf69fa
+JP-Reality-02 = vless, c8217-b2a.h2.49d2.jse11.1.b297.djjsvip.cfd, 8443, username=56c8ad57-ddfc-423f-a452-aa16e97e3346, tls=true, reality=true, servername=www.delamer.co.jp, reality-public-key=tpxyz9wkFuetOl4-nf_fx4l3DaJwEk9Qnglpuo9B2n4, reality-short-id=8743f0c33aaf69fa
+JP-Reality-03 = vless, c8217-b2a.h2.49d2.jse11.1.b297.djjsvip.cfd, 8443, username=56c8ad57-ddfc-423f-a452-aa16e97e3346, tls=true, reality=true, servername=www.delamer.co.jp, reality-public-key=tpxyz9wkFuetOl4-nf_fx4l3DaJwEk9Qnglpuo9B2n4, reality-short-id=8743f0c33aaf69fa
+TW-Reality-Twitter = vless, h1.49d2.5e11.613.b297.jampvip.cfd, 443, username=56c8ad57-ddfc-423f-a452-aa16e97e3346, tls=true, reality=true, servername=cdn-dynmedia-1.microsoft.com, reality-public-key=hqLKHFfHt56-wcQXaPlG4vyrBNHX6Ew3glLkj0X2Cxo, reality-short-id=a59821e9c2004f5d
+IN-Reality-Mumbai = vless, 144.24.97.225, 443, username=56c8ad57-ddfc-423f-a452-aa16e97e3346, tls=true, reality=true, servername=osxapps.itunes.apple.com, reality-public-key=h6jFhmMYpmiEmm4sxrBLBSxtgsdM5k5EUvrv1bKNFGU, reality-short-id=8894620bd4b91f71
