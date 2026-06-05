@@ -12,7 +12,7 @@ URL-REGEX,^https?:\/\/cm\.bilibili\.com\/,REJECT
 
 [Script]
 # 3. 拦截并使用 GitHub 上的远程魔改 JS 脚本清洗 Web API 数据
-Bili_Mac_Web = type=http-response,pattern=^https?:\/\/api\.bilibili\.com\/x\/web-interface\/(wbi\/index\/top\/feed\/rcmd|wbi\/archive\/related|wbi\/operation\/activity),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/YourName/SurgeRule/master/Bili_Mac_Web.js
+Bili_Mac_Web = type=http-response,pattern=^https?:\/\/api\.bilibili\.com\/x\/web-interface\/(wbi\/index\/top\/feed\/rcmd|wbi\/archive\/related|wbi\/operation\/activity),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/anyi11/anyi11/refs/heads/master/Bili_Mac_Web.js
 
 [MITM]
 # 4. 扩充解密域名清单
