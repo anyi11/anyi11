@@ -1,10 +1,10 @@
-#!name=Mac Web Ads Cleaner (Bilibili & YouTube)
-#!desc=专为 Mac 浏览器重构的网页去广告模块。剥离了全部移动端 App 报错脚本，合并 B站与 YouTube 网页去广告、追踪器断流及 QUIC 协议强制降级。
+#!name=Bilibili Mac Web Ads Cleaner
+#!desc=专为 Mac 浏览器重构的 B站网页去广告模块。完全剥离移动端 iOS 脚本与 YouTube 规则，仅通过网络层断流（Reject）干净拦截 B站网页端牛皮癣与广告。
 #!system=mac
 
 [Rule]
 # ==================== [1. Mac 浏览器核心降级铁律] ====================
-# 必须放在 Rule 的第一行！拦截 UDP 443，强行将 Chrome 降级到可以被 Surge 解密的 HTTP/2 协议
+# 必须放在 Rule 的第一行！拦截 UDP 443 端口，强行将 Chrome 降级到可以被 Surge 解密的 HTTP/2 协议
 AND,((PROTOCOL,UDP),(DEST-PORT,443)),REJECT-DROP
 
 # ==================== [2. Bilibili 网页端广告断流] ====================
@@ -13,19 +13,6 @@ DOMAIN-SUFFIX,ad.bilibili.com,REJECT
 URL-REGEX,^https?:\/\/api\.bilibili\.com\/x\/web-show\/ads,REJECT
 URL-REGEX,^https?:\/\/api\.bilibili\.com\/x\/front\/ad,REJECT
 
-# ==================== [3. YouTube 网页端广告断流] ====================
-DOMAIN-SUFFIX,doubleclick.net,REJECT
-DOMAIN-SUFFIX,googleadservices.com,REJECT
-DOMAIN-SUFFIX,googlesyndication.com,REJECT
-DOMAIN-KEYWORD,ads.youtube,REJECT
-DOMAIN-KEYWORD,youtube-ui.l.google.com,REJECT
-URL-REGEX,^https?:\/\/.*\.youtube\.com\/pagead\/,REJECT
-URL-REGEX,^https?:\/\/.*\.youtube\.com\/ptracking,REJECT
-URL-REGEX,^https?:\/\/.*\.youtube\.com\/api\/stats\/ads,REJECT
-URL-REGEX,^https?:\/\/.*\.youtube\.com\/api\/stats\/watchtime,REJECT
-URL-REGEX,^https?:\/\/www\.youtube\.com\/get_midroll_info,REJECT
-
 [MITM]
-# ==================== [4. Mac 网页端专属解密域名] ====================
-# 已剔除全部引发报错的移动端 App 域名
-hostname = %APPEND% www.bilibili.com, bilibili.com, *.bilibili.com, *.youtube.com, www.youtube.com, youtube.com
+# ==================== [3. Mac 网页端专属解密域名] ====================
+hostname = %APPEND% www.bilibili.com, bilibili.com, *.bilibili.com
