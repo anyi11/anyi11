@@ -1,20 +1,11 @@
-#!name=Bilibili Mac Chrome 网页净化模块 (终极合体版)
-#!desc=专为 Mac 浏览器优化，将原 BiliHD 移动端逻辑重构为网页端 Web API 净化，强行降级 QUIC 协议并完整引用 GitHub 远程 JS。
-#!system=mac
-
-[Rule]
-# 1. 强行把 Mac Chrome 逼回传统 TCP 协议（必须放在第一行）
-# 斩断 HTTP/3 (QUIC) 逃逸通道，否则 Chrome 会直接绕过 Surge 的重写机制
-AND,((CONN-TRACKER,client:chrome), (DEST-PORT,443)),REJECT-DROP
-
-# 2. 网页端网络层牛皮癣与上报追踪直接 Reject
-URL-REGEX,^https?:\/\/api\.bilibili\.com\/x\/report\/,REJECT
-URL-REGEX,^https?:\/\/cm\.bilibili\.com\/,REJECT
+#!name=哔哩哔哩解锁大会员
+#!desc=目前支持解锁番剧和影视, 使用前须登陆自己的账号！
+#!type=Surge模块专用
 
 [Script]
-# 3. 拦截特定 Web 接口，并重定向至你在 GitHub 上上传的专属数据清洗脚本
-Bili_Mac_Web = type=http-response,pattern=^https?:\/\/api\.bilibili\.com\/x\/web-interface\/(wbi\/index\/top\/feed\/rcmd|wbi\/archive\/related|wbi\/operation\/activity),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/anyi11/anyi11/refs/heads/master/Bili_Mac_Web.js
 
-[MITM]
-# 4. 扩充解密域名，授权 Surge 强制审计并重写 B站 网页端核心流量
-hostname = %APPEND% api.bilibili.com, cm.bilibili.com
+哔哩哔哩解锁大会员 = type=http-request,pattern="^https?:\/\/ap(i|p)\.bilibili\.com\/bilibili\.\w{3,4}\..+\/(View|PlayView|PlayConf|PlayerOnline|MainList|ViewProgress)$",requires-body=0,script-path=https://raw.githubusercontent.com/anyi11/anyi11/refs/heads/master/Bili_Mac_Web.js
+
+[MITM] 
+
+hostname = *.bili*.*, 124.239.240.*, 101.89.57.66, 218.94.210.66, 240e:b1:9801:206:11:0:0:*
