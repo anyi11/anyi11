@@ -4,7 +4,7 @@
 
 [Rule]
 # ==================== [1. Mac 浏览器核心降级铁律] ====================
-# 必须放在 Rule 的第一行！拦截 UDP 443，强行将 Chrome 降级到可以被 Surge 解密的 HTTP/2 协议 [cite: 8, 14, 18]
+# 必须放在 Rule 的第一行！拦截 UDP 443，强行将 Chrome 降级到可以被 Surge 解密的 HTTP/2 协议
 AND,((PROTOCOL,UDP),(DEST-PORT,443)),REJECT-DROP
 
 # ==================== [2. Bilibili 网页端广告断流] ====================
@@ -27,5 +27,5 @@ URL-REGEX,^https?:\/\/www\.youtube\.com\/get_midroll_info,REJECT
 
 [MITM]
 # ==================== [4. Mac 网页端专属解密域名] ====================
-# 已剔除全部引发报错的移动端 App 域名 [cite: 14]
+# 已剔除全部引发报错的移动端 App 域名
 hostname = %APPEND% www.bilibili.com, bilibili.com, *.bilibili.com, *.youtube.com, www.youtube.com, youtube.com
