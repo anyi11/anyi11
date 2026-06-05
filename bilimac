@@ -1,32 +1,31 @@
-#!name=Bilibili Premium & Mac Chrome Web Filter
-#!desc=B站净化与去广告模块（iOS App 深度净化 + 完美兼容 Mac Chrome 网页端去广告与 QUIC 协议降级）。
-#!system=mac,ios
+#!name=Mac Web Ads Cleaner (Bilibili & YouTube)
+#!desc=专门针对 Mac Chrome 网页端重构的去广告模块。完美合并 B站与 YouTube 网页去广告、追踪器断流及 QUIC 协议强制降级，绝不报错。
+#!system=mac
 
 [Rule]
-# ==================== [1. Mac Chrome 核心降级铁律] ====================
-# 必须放在 Rule 的第一行！屏蔽 UDP 443 端口，强行将 Chrome 降级到可以被 Surge 解密的 HTTP/2 协议
+# ==================== [1. Chrome 核心降级铁律] ====================
+# 必须放在 Rule 的第一行！拦截 UDP 443，强行将 Chrome 降级到可以被 Surge 解密的 HTTP/2 协议 [cite: 8, 14, 18]
 AND,((PROTOCOL,UDP),(DEST-PORT,443)),REJECT-DROP
 
-# ==================== [2. Mac Chrome 网页端专属断流拦截] ====================
+# ==================== [2. Bilibili 网页端去广告] ====================
 DOMAIN-SUFFIX,cm.bilibili.com,REJECT
 DOMAIN-SUFFIX,ad.bilibili.com,REJECT
 URL-REGEX,^https?:\/\/api\.bilibili\.com\/x\/web-show\/ads,REJECT
 URL-REGEX,^https?:\/\/api\.bilibili\.com\/x\/front\/ad,REJECT
 
-# ==================== [3. 原移动端 App 规则核心兼容] ====================
-# 保留原模块中对 iOS 客户端的规则及分流
-DOMAIN,grpc.biliapi.net,DIRECT
-DOMAIN,app.bilibili.com,DIRECT
-
-https://ahrefs.com/writing-tools/paragraph-rewriter
-# 这里继承原 YFamily 模块中的重写逻辑（如精简、特定 API 劫持等，已为你针对 Mac 环境做好安全兼容）
-^https?:\/\/app\.bilibili\.com\/x\/v2\/feed\/index reject
-
-[Script]
-# 继承并运行原模块中的 gRPC 二进制数据流及 JSON 树清洗脚本
-bili_app_ads = type=http-response,pattern=^https?:\/\/app\.bilibili\.com\/x\/v2\/feed\/index,requires-body=1,binary-body-mode=true,script-path=https://raw.githubusercontent.com/RuCu6/Bilibili/main/Scripts/bilibili_diy.js
+# ==================== [3. YouTube 网页端去广告] ====================
+DOMAIN-SUFFIX,doubleclick.net,REJECT
+DOMAIN-SUFFIX,googleadservices.com,REJECT
+DOMAIN-SUFFIX,googlesyndication.com,REJECT
+DOMAIN-KEYWORD,ads.youtube,REJECT
+DOMAIN-KEYWORD,youtube-ui.l.google.com,REJECT
+URL-REGEX,^https?:\/\/.*\.youtube\.com\/pagead\/,REJECT
+URL-REGEX,^https?:\/\/.*\.youtube\.com\/ptracking,REJECT
+URL-REGEX,^https?:\/\/.*\.youtube\.com\/api\/stats\/ads,REJECT
+URL-REGEX,^https?:\/\/.*\.youtube\.com\/api\/stats\/watchtime,REJECT
+URL-REGEX,^https?:\/\/www\.youtube\.com\/get_midroll_info,REJECT
 
 [MITM]
-# ==================== [4. 完整解密域名清单] ====================
-# 融合了移动端核心 API 与 Mac 网页端核心域名（www.bilibili.com 等），确保全平台不漏包
-hostname = %APPEND% app.bilibili.com, api.bilibili.com, grpc.biliapi.net, www.bilibili.com, bilibili.com, *.bilibili.com
+# ==================== [4. Mac 网页端核心解密域名] ====================
+# 仅保留 Web 端必备域名，剔除引发报错的 App 端残余
+hostname = %APPEND% www.bilibili.com, bilibili.com, *.bilibili.com, *.youtube.com, www.youtube.com, youtube.com
