@@ -1,19 +1,21 @@
-#!name=Bilibili Mac Chrome 网页净化模块
-#!desc=专为 Mac 浏览器优化，将原 BiliHD 移动端逻辑重构为网页端 Web API 净化，强行降级 QUIC 协议。
+#!name=Bilibili Mac Chrome 网页净化模块 (修正引用版)
+#!desc=专为 Mac 浏览器优化，将原 BiliHD 移动端逻辑重构为网页端 Web API 净化，强行降级 QUIC 协议并完整引用 GitHub 远程 JS。
 #!system=mac
 
 [Rule]
-# 1. 强制降级 Chrome 的网络协议
+# 1. 强制降级 Chrome 的网络协议（必须放在第一行）
+# 斩断 HTTP/3 逃逸通道，迫使 Chrome 降级到可以被 Surge 解密的传统 TCP [cite: 7, 8, 12]
 AND,((CONN-TRACKER,client:chrome), (DEST-PORT,443)),REJECT-DROP
 
-# 2. 针对 Web 网页端的网络层牛皮癣广告与追踪断流
+# 2. 针对 Web 网页端的网络层广告与追踪直接断流
 URL-REGEX,^https?:\/\/api\.bilibili\.com\/x\/report\/,REJECT
 URL-REGEX,^https?:\/\/cm\.bilibili\.com\/,REJECT
 
 [Script]
-# 3. 拦截并使用 GitHub 上的远程魔改 JS 脚本清洗 Web API 数据
+# 3. 【核心修正】拦截并完整引用你在 GitHub 上的专属魔改 JS 脚本，清洗首页推荐和侧边栏
+# 这里的 script-path 已经精准绑定了你在 GitHub 上同目录下的 JS 源码
 Bili_Mac_Web = type=http-response,pattern=^https?:\/\/api\.bilibili\.com\/x\/web-interface\/(wbi\/index\/top\/feed\/rcmd|wbi\/archive\/related|wbi\/operation\/activity),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/anyi11/anyi11/refs/heads/master/Bili_Mac_Web.js
 
 [MITM]
-# 4. 扩充解密域名清单
+# 4. 开启解密域名清单，必须包含网页端 API 服务器 [cite: 12, 14, 15]
 hostname = %APPEND% api.bilibili.com, cm.bilibili.com
