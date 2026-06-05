@@ -1,15 +1,22 @@
-#!name=Bilibili Mac Web Unblock
-#!desc=专为 Mac Chrome 网页端定制的 B站港澳台区域限制解锁模块（无需大会员）
+#!name=Bilibili Mac Web Unblock & Clean (YFamily Modified)
+#!desc=专为 Mac Chrome 网页端定制的 B站港澳台区域解锁（免大会员）与全网页广告净化模块
 #!category=Surge Mac Expert
 
 [Rule]
-# 1. 顶部强制降级 Chrome 网络协议（防止 QUIC 绕过 Surge）
+# 1. 顶部强制降级 Chrome 网络协议（防止 QUIC 绕过 Surge 导致解封/去广告失败）
 UDP, 0.0.0.0/0, 443, REJECT-DROP
 
-# 2. 将网页端视频播放鉴权接口并入港澳台代理策略组
+# 2. 【核心解锁】将网页端视频播放鉴权接口并入港澳台代理策略组
 # ⚠️ 请将下方的 "Proxy" 替换为您 Surge 中实际可用的港澳台代理策略组名称（如 HK, TW, 或 Proxy）
 URL-REGEX, ^https?://api\.bilibili\.com/pgc/player/web/playurl, Proxy
 URL-REGEX, ^https?://api\.bilibili\.com/x/player/web/v2/playurl, Proxy
 
+# 3. 【网页去广告】利用网络层断流（Reject）切断 B站网页端牛皮癣广告与追踪器
+URL-REGEX, ^https?://api\.bilibili\.com/x/web-interface/wbi/index/top/feed/rcmd, REJECT
+URL-REGEX, ^https?://api\.bilibili\.com/x/front/slide/show, REJECT
+URL-REGEX, ^https?://api\.bilibili\.com/x/web-interface/ads, REJECT
+DOMAIN, cm.bilibili.com, REJECT
+DOMAIN, data.bilibili.com, REJECT
+
 [MITM]
-hostname = %APPEND% api.bilibili.com, *.bilibili.com
+hostname = %APPEND% api.bilibili.com, *.bilibili.com, www.bilibili.com
