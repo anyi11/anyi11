@@ -1,0 +1,26 @@
+#!name=YouTube Premium for Mac Chrome
+#!desc=针对 Mac Chrome 浏览器优化的 YouTube 去广告兼容模块，强制降级 QUIC 并拦截网页广告。
+#!system=mac
+
+[Rule]
+# 1. 顶部铁律：强制降级 Chrome 的网络协议 (必须放在 Rule 第一行)
+# 屏蔽 UDP 443 端口，逼迫 Chrome 降级到可以被 Surge 解密的 HTTP/2 (TCP) 协议
+AND,((PROTOCOL,UDP),(DEST-PORT,443)),REJECT-DROP
+
+# 2. 网页端专属去广告与追踪器断流
+DOMAIN-SUFFIX,doubleclick.net,REJECT
+DOMAIN-SUFFIX,googleadservices.com,REJECT
+DOMAIN-SUFFIX,googlesyndication.com,REJECT
+DOMAIN-KEYWORD,ads.youtube,REJECT
+DOMAIN-KEYWORD,youtube-ui.l.google.com,REJECT
+
+# 拦截 YouTube 网页端的各种内嵌广告、引流组件及统计上报 API
+URL-REGEX,^https?:\/\/.*\.youtube\.com\/pagead\/,REJECT
+URL-REGEX,^https?:\/\/.*\.youtube\.com\/ptracking,REJECT
+URL-REGEX,^https?:\/\/.*\.youtube\.com\/api\/stats\/ads,REJECT
+URL-REGEX,^https?:\/\/.*\.youtube\.com\/api\/stats\/watchtime,REJECT
+URL-REGEX,^https?:\/\/www\.youtube\.com\/get_midroll_info,REJECT
+
+[MITM]
+# 3. 扩充解密域名清单，确保包含网页端核心域名
+hostname = %APPEND% *.youtube.com, www.youtube.com, youtube.com
