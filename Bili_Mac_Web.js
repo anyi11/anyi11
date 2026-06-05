@@ -1,6 +1,6 @@
 /**
  * 专为 Mac Chrome 网页端魔改的 Bilibili 净化脚本
- * 适配原 BiliHD 的基础逻辑，剥离 gRPC，专攻 Web API 
+ * 适配原 BiliHD 的基础逻辑，剥离 gRPC，专攻 Web API [cite: 1]
  */
 
 let url = $request.url;
@@ -14,7 +14,6 @@ try {
         if (url.includes("/x/web-interface/wbi/index/top/feed/rcmd")) {
             if (obj.data && obj.data.item) {
                 obj.data.item = obj.data.item.filter(item => {
-                    // 剔除带有广告标识（is_ad）或运营推广的内容
                     return !item.is_ad && item.goto !== "ad" && !item.ad_info;
                 });
             }
@@ -29,7 +28,7 @@ try {
 
         // 3. 屏蔽弹幕/评论区上方的活动横幅广告 (Banner)
         if (url.includes("/x/web-interface/wbi/operation/activity")) {
-            if (obj.data) obj.data = {}; // 直接清空活动推荐数据
+            if (obj.data) obj.data = {}; 
         }
 
         response.body = JSON.stringify(obj);
