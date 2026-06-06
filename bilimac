@@ -1,15 +1,16 @@
-#!name=Bilibili Mac Web Unlock (Based on BiLiBiBVIPCrack)
-#!desc=基于 BiLiBiBVIPCrack 重构，专为 Mac Chrome 网页端定制的 Bilibili 港澳台区域限制与画质解锁模块（纯净解锁版，无去广告垃圾规则）。
-#!system=mac
-
-[Rule]
-# 1. 顶部防逃逸：强行降级 Chrome 的网络协议，防止其绕过 Surge 审计
-AND,((PROTOCOL,UDP),(DEST-PORT,443)),REJECT-DROP
-
-# 2. 中部核心锁：将 Mac 网页端专属的视频/番剧播放鉴权接口强行并入代理分流
-URL-REGEX,^https?://api\.bilibili\.com/pgc/player/web/playurl,Proxy
-URL-REGEX,^https?://api\.bilibili\.com/x/player/wbi/playurl,Proxy
+#!name=Bilibili 多端虚拟大会员 & 净化模块
+#!desc=自定义挂载 GitHub 通用解包脚本，解锁客户端本地虚拟大会员状态，净化推荐流与评论区广告。
+#!category=测试专用
 
 [MITM]
-# 3. 尾部解密锁：精准解密 Web 端播放鉴权核心域名
-hostname = api.bilibili.com
+hostname = %APPEND% app.bilibili.com, api.bilibili.com
+
+[Script]
+# 1. 拦截 B站 客户端个人中心与账号状态接口（触发虚拟大会员核心）
+Bili_Virtual_Vip = type=http-response,pattern=^https?:\/\/(app|api)\.bilibili\.com\/x\/(v2\/account\/mine|space\/myinfo),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/anyi11/anyi11/refs/heads/master/Bili_Mac_Web.js
+
+# 2. 拦截 视频播放地址接口（尝试解锁本地高画质开关）
+Bili_Play_Url = type=http-response,pattern=^https?:\/\/api\.bilibili\.com\/x\/player\/wbi\/v2\/playurl,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/anyi11/anyi11/refs/heads/master/Bili_Mac_Web.js
+
+# 3. 拦截 首页推荐流与动态（触发去广告与净化逻辑）
+Bili_Purify_Feed = type=http-response,pattern=^https?:\/\/app\.bilibili\.com\/x\/v2\/feed\/(index|rcmd),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/anyi11/anyi11/refs/heads/master/Bili_Mac_Web.js
