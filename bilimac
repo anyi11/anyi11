@@ -1,16 +1,9 @@
-#!name=Bilibili 多端虚拟大会员 & 净化模块
-#!desc=自定义挂载 GitHub 通用解包脚本，解锁客户端本地虚拟大会员状态，净化推荐流与评论区广告。
-#!category=测试专用
-
-[MITM]
-hostname = %APPEND% app.bilibili.com, api.bilibili.com
-
 [Script]
-# 1. 拦截 B站 客户端个人中心与账号状态接口（触发虚拟大会员核心）
+# 1. 拦截 B站 个人中心与账号状态接口
 Bili_Virtual_Vip = type=http-response,pattern=^https?:\/\/(app|api)\.bilibili\.com\/x\/(v2\/account\/mine|space\/myinfo),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/anyi11/anyi11/refs/heads/master/Bili_Mac_Web.js
 
-# 2. 拦截 视频播放地址接口（尝试解锁本地高画质开关）
+# 2. 拦截 视频播放地址接口解锁画质
 Bili_Play_Url = type=http-response,pattern=^https?:\/\/api\.bilibili\.com\/x\/player\/wbi\/v2\/playurl,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/anyi11/anyi11/refs/heads/master/Bili_Mac_Web.js
 
-# 3. 拦截 首页推荐流与动态（触发去广告与净化逻辑）
+# 3. 推荐流去广告净化
 Bili_Purify_Feed = type=http-response,pattern=^https?:\/\/app\.bilibili\.com\/x\/v2\/feed\/(index|rcmd),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/anyi11/anyi11/refs/heads/master/Bili_Mac_Web.js
