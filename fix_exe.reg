@@ -1,0 +1,26 @@
+Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\.exe]
+@="exefile"
+"Content Type"="application/x-msdownload"
+
+[HKEY_CLASSES_ROOT\.exe\PersistentHandler]
+@="{098f2470-b00d-408a-8000-4751193882d7}"
+
+[HKEY_CLASSES_ROOT\exefile]
+@="Application"
+"EditFlags"=hex:38,07,00,00
+"FriendlyTypeName"=hex(2):40,25,53,79,73,74,65,6d,52,6f,6f,74,25,5c,53,79,73,\
+  74,65,6d,33,32,5c,73,68,65,6c,6c,33,32,2e,64,6c,6c,2c,2d,31,30,31,35,36,00
+
+[HKEY_CLASSES_ROOT\exefile\shell]
+@="open"
+
+[HKEY_CLASSES_ROOT\exefile\shell\open]
+"EditFlags"=hex:00,00,00,00
+
+[HKEY_CLASSES_ROOT\exefile\shell\open\command]
+@="\"%1\" %*"
+"IsolatedCommand"="\"%1\" %*"
+
+[-HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.exe\UserChoice]
