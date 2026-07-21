@@ -1,0 +1,21 @@
+@echo off
+:: 自动获取管理员权限
+%1 mshta vbscript:CreateObject("Shell.Application").ShellExecute("cmd.exe","/c %~s0 ::","","runas",1)(window.close)&&exit
+
+echo 正在清理系统注册表垃圾与网络配置...
+
+:: 1. 重置 Winsock / IP 协议栈（修复网络和连不上的问题）
+netsh winsock reset >nul 2>&1
+netsh int ip reset >nul 2>&1
+netsh advfirewall reset >nul 2>&1
+ipconfig /flushdns >nul 2>&1
+
+:: 2. 清理注册表中的临时文件、图标缓存与废弃连接记录
+reg delete "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU" /f >nul 2>&1
+reg delete "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\TypedPaths" /f >nul 2>&1
+reg delete "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs" /f >nul 2>&1
+
+echo 清理完成！正在强制自动重启...
+
+:: 3. 强制关闭所有程序并立即重启 (0秒倒计时)
+shutdown /r /f /t 0
